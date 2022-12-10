@@ -1,5 +1,5 @@
 import streamlit as st
-from pullData import pullDataFromYahoo
+from pullData import getPlayerLevelData
 from st_aggrid import AgGrid
 from getSchedule import getTeamsPlayingOnSelectedDates
 from st_aggrid.grid_options_builder import GridOptionsBuilder
@@ -9,19 +9,15 @@ st.set_page_config(layout="wide")
 
 @st.cache
 def getMostAdded():
-    most_added = pullDataFromYahoo()
-    return most_added
+    playerStatsAndInfo = getPlayerLevelData()
+    return playerStatsAndInfo
 
-most_added = getMostAdded()
-
-print(most_added)
+playerStatsAndInfo = getMostAdded()
 
 st.title("TFB")
 
-teams = set(most_added['Team'].unique())
-print(sorted(teams))
-
-#x = st.selectbox("Team", teams)
+teams = set(sorted(playerStatsAndInfo['Team'].unique()))
+print(teams)
 
 defaultTeamsList = getTeamsPlayingOnSelectedDates()
 
@@ -30,7 +26,7 @@ curTeam = st.multiselect(
     teams,default=defaultTeamsList)
 
 
-filteredDF = most_added[most_added['Team'].isin(curTeam)]
+filteredDF = playerStatsAndInfo[playerStatsAndInfo['Team'].isin(curTeam)]
 
 
 gb = GridOptionsBuilder.from_dataframe(filteredDF)
@@ -39,7 +35,7 @@ gb = GridOptionsBuilder.from_dataframe(filteredDF)
 gb.configure_column('Name',pinned=True)
 gridOptions = gb.build()
 
-AgGrid(filteredDF, gridOptions=gridOptions, enable_enterprise_modules=True)
+AgGrid(filteredDF, gridOptions=gridOptions, enable_enterprise_modules=False)
 
 
 
