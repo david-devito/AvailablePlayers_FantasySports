@@ -1,2 +1,3 @@
 bs4
+python3-lxml
 streamlit-aggrid
