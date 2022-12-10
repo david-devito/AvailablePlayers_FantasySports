@@ -33,7 +33,7 @@ filteredDF = most_added[most_added['Team'].isin(curTeam)]
 
 #st.dataframe(filteredDF)
 
-AgGrid(filteredDF)
+AgGrid(filteredDF, enable_enterprise_modules=False)
 
 
 
