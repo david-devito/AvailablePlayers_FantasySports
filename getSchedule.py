@@ -7,7 +7,7 @@ from datetime import timedelta
 
 
 
-def getTeamsPlayingOnSelectedDates():
+def getTeamsPlayingOnSelectedDates(date_list):
     
     teamAbbrevDict = {'Anaheim Ducks':'ANA',
      'Arizona Coyotes':'ARI',
@@ -50,8 +50,9 @@ def getTeamsPlayingOnSelectedDates():
     
     curDate = str(dt.datetime.now().date())
     
-    
-    curDF = schedDF[schedDF['Date'].isin([curDate,str(pd.to_datetime(curDate).date()+timedelta(1))])]
+    curDF = schedDF[schedDF['Date'].isin(date_list)]
+
+    #curDF = schedDF[schedDF['Date'].isin([curDate,str(pd.to_datetime(curDate).date()+timedelta(1))])]
     
     curDatesTeamList = list(curDF['Away']) + list(curDF['Home'])
     
