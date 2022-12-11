@@ -57,7 +57,7 @@ def getTeamsPlayingOnSelectedDates(date_list):
     curDatesTeamList = list(curDF['Away']) + list(curDF['Home'])
     
     import collections
-    playOnSelectedDates = [item for item, count in collections.Counter(curDatesTeamList).items() if count > 1]
+    playOnSelectedDates = [item for item, count in collections.Counter(curDatesTeamList).items() if count == len(date_list)]
     
     playOnSelectedDates = [teamAbbrevDict[x] for x in playOnSelectedDates]
     return playOnSelectedDates
