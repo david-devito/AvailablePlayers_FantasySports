@@ -1,7 +1,7 @@
 import streamlit as st
 from pullData import getPlayerLevelData
 from st_aggrid import AgGrid
-from getSchedule import getTeamsPlayingOnSelectedDates
+from getSchedule import getTeamsPlayingOnSelectedDates, getUpcomingMatchups
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 import datetime
 
@@ -43,6 +43,10 @@ curPosition = st.multiselect(
     'Select Positions',
     positions,default=positions)
 
+
+upcomingMatchups = getUpcomingMatchups(curTeam)
+
+st.dataframe(upcomingMatchups)
 
 # Filter player DF based on selections
 filteredDF = playerStatsAndInfo[(playerStatsAndInfo['Team'].isin(curTeam)) & (playerStatsAndInfo['Pos'].str.contains('|'.join(curPosition)))]
