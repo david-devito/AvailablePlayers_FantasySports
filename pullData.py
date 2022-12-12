@@ -172,7 +172,7 @@ def getPlayerLevelData():
     
     fullStatsDF = fullStatsDF[['Name','Team','Pos','Status','Adds','Last7','Last14','G','A','+/-','PPP','SOG','Hits']]
     
-    fullStatsDF.sort_values(by='Last14', ascending=True)
+    fullStatsDF = fullStatsDF.sort_values(by='Last14', ascending=True)
 
     return fullStatsDF
 

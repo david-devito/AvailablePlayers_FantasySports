@@ -35,8 +35,17 @@ curTeam = st.multiselect(
     'Select Teams',
     teams,default=defaultTeamsList)
 
+
+
+positions = ['C','LW','RW','D']
+
+curPosition = st.multiselect(
+    'Select Positions',
+    positions,default=positions)
+
+
 # Filter player DF based on selections
-filteredDF = playerStatsAndInfo[playerStatsAndInfo['Team'].isin(curTeam)]
+filteredDF = playerStatsAndInfo[(playerStatsAndInfo['Team'].isin(curTeam)) & (playerStatsAndInfo['Pos'].str.contains('|'.join(curPosition)))]
 
 # Configure and display Dataframe
 gb = GridOptionsBuilder.from_dataframe(filteredDF)
