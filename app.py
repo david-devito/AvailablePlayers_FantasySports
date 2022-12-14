@@ -1,5 +1,5 @@
 import streamlit as st
-from pullData import getPlayerLevelData
+from pullData import getPlayerLevelData, getPlayerLevelData_IM
 from st_aggrid import AgGrid
 from getSchedule import getTeamsPlayingOnSelectedDates, getUpcomingMatchups
 from st_aggrid.grid_options_builder import GridOptionsBuilder
@@ -9,11 +9,12 @@ st.set_page_config(layout="wide")
 
 # Scrape Player Info from Yahoo Fantasy League
 @st.cache
-def getMostAdded():
+def getPlayerData(getCurDateForCache):
     playerStatsAndInfo = getPlayerLevelData()
     return playerStatsAndInfo
 
-playerStatsAndInfo = getMostAdded()
+getCurDateForCache = [datetime.datetime.now().date(),datetime.datetime.now().hour]
+playerStatsAndInfo = getPlayerData(getCurDateForCache)
 
 # Add a Title
 st.title("TFB")
