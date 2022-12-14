@@ -39,22 +39,20 @@ def getPlayerLevelData():
     def getFullSeasonData():
     
         fullSeason = []
-    
+        # Loop through player pages on Yahoo
         for counti in [0,25,50,75,100,125]:
-    
-    
+            # Scrape yahoo player pages
             url = f'https://hockey.fantasysports.yahoo.com/hockey/37348/players?status=A&pos=P&cut_type=33&stat1=S_S_2022&myteam=0&sort=AR&sdir=1&count={str(counti)}'
             page_content= requests.get(url).text
             soup = BeautifulSoup(''.join(page_content), "lxml")
             
-            
-    
             for tables in soup.find_all('tbody'):
-    
+                # Loop through each player
                 for row in tables.find_all('tr'):
                     detail = (row.get_text(strip=True, separator='|').split('|'))
     
                     if detail[1] == 'New Player Note' or detail[1] == 'Player Note' or detail[1] == 'No new player Notes' and len(detail) > 3:
+                        # Populate relevant data
                         playerName = detail[2]
                         teamName = detail[3].split(' - ')[0]
                         playerpos = detail[3].split(' - ')[1]
@@ -63,7 +61,6 @@ def getPlayerLevelData():
                             faOrWaivers = 'FA'
                         else:
                             faOrWaivers = 'W'
-                        
                         
                         goals = detail[-6]
                         assists = detail[-5]
@@ -78,15 +75,12 @@ def getPlayerLevelData():
                     else:
                         next
             
-            
         fullSeason = pd.DataFrame(fullSeason)
         fullSeason.columns = ['Name','Team','Pos','Status','G','A','+/-','PPP','SOG','Hits']
-    
     
         return fullSeason
     
     fullSeason = getFullSeasonData()
-    
     
     # Pull Last-14 Data and Last-7 Data
     def getLast14Data():
@@ -140,8 +134,6 @@ def getPlayerLevelData():
             page_content= requests.get(url).text
             soup = BeautifulSoup(''.join(page_content), "lxml")
             
-            
-        
             for tables in soup.find_all('tbody'):
         
                 for row in tables.find_all('tr'):
@@ -168,12 +160,8 @@ def getPlayerLevelData():
         
     fullStatsDF = pd.merge(fullStatsDF,adds,on='Name',how='left')
     
-    
-    
     fullStatsDF = fullStatsDF[['Name','Team','Pos','Status','Adds','Last7','Last14','G','A','+/-','PPP','SOG','Hits']]
     
-    fullStatsDF = fullStatsDF.sort_values(by='Last14', ascending=True)
-
     return fullStatsDF
 
 

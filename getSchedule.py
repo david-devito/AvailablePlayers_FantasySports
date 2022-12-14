@@ -46,13 +46,8 @@ def getTeamsPlayingOnSelectedDates(date_list):
 
     schedDF = pd.read_csv('2022_2023_NHL_Schedule.csv', header=None)
     schedDF.columns = ['Date','Time','Away','Home']
-    #schedDF['Home'].unique()
-    
-    #curDate = str(dt.datetime.now().date())
     
     curDF = schedDF[schedDF['Date'].isin(date_list)]
-
-    #curDF = schedDF[schedDF['Date'].isin([curDate,str(pd.to_datetime(curDate).date()+timedelta(1))])]
     
     curDatesTeamList = list(curDF['Away']) + list(curDF['Home'])
     
@@ -97,8 +92,6 @@ def getUpcomingMatchups(team_list):
      'Vegas Golden Knights':'VGK',
      'Washington Capitals':'WPG',
      'Winnipeg Jets':'WSH'}
-    
-    
     
     matchupsDF = []
     schedDF = pd.read_csv('2022_2023_NHL_Schedule.csv', header=None)
